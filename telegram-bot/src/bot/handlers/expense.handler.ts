@@ -1,5 +1,5 @@
 import type { Context } from 'telegraf';
-import type { TransactionDraft } from '@expenseflow/shared';
+import { TransactionType, type TransactionDraft } from '@expenseflow/shared';
 import { ExpenseFlowApi, formatDraft } from '../../services/api-client';
 import { needsConfirmation, parseExpenseMessage } from '../../ai/parse-message';
 import type { BotConfig } from '../../config/bot.config';
@@ -15,6 +15,19 @@ const pending = new Map<string, PendingDraft>();
 
 function pendingKey(telegramId: string, draftId: string) {
   return `${telegramId}:${draftId}`;
+}
+
+function confirmationText(draft: TransactionDraft): string {
+  const guessed =
+    draft.type === TransactionType.INCOME ? 'income' : 'expense';
+  return [
+    'I need a quick confirmation:',
+    '',
+    formatDraft(draft),
+    '',
+    `I guessed: ${guessed}`,
+    'Is this an expense or income?',
+  ].join('\n');
 }
 
 export function createExpenseHandlers(config: BotConfig) {
@@ -48,19 +61,23 @@ export function createExpenseHandlers(config: BotConfig) {
           expiresAt: Date.now() + 5 * 60_000,
         });
 
-        await ctx.reply(
-          `I parsed this — please confirm:\n\n${formatDraft(draft)}\n\nConfidence: ${(draft.confidence * 100).toFixed(0)}%`,
-          {
-            reply_markup: {
-              inline_keyboard: [
-                [
-                  { text: '✅ Confirm', callback_data: `exp:ok:${draftId}` },
-                  { text: '❌ Cancel', callback_data: `exp:no:${draftId}` },
-                ],
+        await ctx.reply(confirmationText(draft), {
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: '💸 Expense',
+                  callback_data: `exp:expense:${draftId}`,
+                },
+                {
+                  text: '💰 Income',
+                  callback_data: `exp:income:${draftId}`,
+                },
               ],
-            },
+              [{ text: '❌ Cancel', callback_data: `exp:no:${draftId}` }],
+            ],
           },
-        );
+        });
         return;
       }
 
@@ -103,6 +120,17 @@ export function createExpenseHandlers(config: BotConfig) {
         await ctx.editMessageText(
           'Could not save — amount missing. Try e.g. Coffee 250',
         );
+        return;
+      }
+
+      if (action === 'income') {
+        item.draft.type = TransactionType.INCOME;
+      } else if (action === 'expense') {
+        item.draft.type = TransactionType.EXPENSE;
+      } else if (action === 'ok') {
+        // legacy confirm button — keep guessed type
+      } else {
+        await ctx.answerCbQuery('Unknown action');
         return;
       }
 
