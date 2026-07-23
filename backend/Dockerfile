@@ -11,6 +11,8 @@ COPY backend/package.json ./backend/
 RUN pnpm install --filter @expenseflow/api... --frozen-lockfile || pnpm install --filter @expenseflow/api...
 
 FROM base AS build
+COPY --from=deps /app/package.json ./package.json
+COPY --from=deps /app/pnpm-workspace.yaml ./pnpm-workspace.yaml
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/shared/node_modules ./shared/node_modules
 COPY --from=deps /app/backend/node_modules ./backend/node_modules
