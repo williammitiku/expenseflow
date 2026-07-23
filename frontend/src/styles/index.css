@@ -1,0 +1,68 @@
+@import 'tailwindcss';
+
+:root {
+  --ef-bg-0: #0c1f1a;
+  --ef-bg-1: #14352c;
+  --ef-bg-2: #1c4a3d;
+  --ef-accent: #3ecf8e;
+  --ef-accent-soft: #9af0c5;
+  --ef-ink: #f2fbf6;
+  --ef-muted: #a7c4b8;
+  --ef-glow: rgba(62, 207, 142, 0.35);
+  --ef-font-display: 'Instrument Serif', Georgia, serif;
+  --ef-font-body: 'DM Sans', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--ef-font-body);
+  color: var(--ef-ink);
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(62, 207, 142, 0.18), transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, rgba(28, 74, 61, 0.9), transparent 50%),
+    linear-gradient(160deg, var(--ef-bg-0), var(--ef-bg-1) 45%, #0a1814 100%);
+  background-attachment: fixed;
+}
+
+@keyframes ef-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ef-pulse-soft {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--ef-glow);
+  }
+  50% {
+    box-shadow: 0 0 0 12px transparent;
+  }
+}
+
+.ef-rise {
+  animation: ef-rise 700ms ease-out both;
+}
+
+.ef-rise-delay {
+  animation: ef-rise 700ms ease-out 120ms both;
+}
+
+.ef-rise-delay-2 {
+  animation: ef-rise 700ms ease-out 240ms both;
+}

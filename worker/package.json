@@ -1,0 +1,24 @@
+{
+  "name": "@expenseflow/worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ExpenseFlow BullMQ background workers",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/main.ts",
+    "start": "node dist/main.js",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "echo \"No worker tests yet\""
+  },
+  "dependencies": {
+    "@expenseflow/shared": "workspace:*",
+    "bullmq": "^5.34.8",
+    "dotenv": "^16.4.7",
+    "ioredis": "^5.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@expenseflow/telegram-bot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ExpenseFlow Telegram Bot",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx watch src/main.ts",
+    "start": "node dist/main.js",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "echo \"No bot tests yet\""
+  },
+  "dependencies": {
+    "@expenseflow/shared": "workspace:*",
+    "dotenv": "^16.4.7",
+    "telegraf": "^4.16.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

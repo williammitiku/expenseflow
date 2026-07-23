@@ -1,0 +1,10 @@
+# Second Railway service — Root Directory = monorepo `/`
+# Set dockerfilePath to telegram-bot/Dockerfile in the UI if this file is not picked up.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "telegram-bot/Dockerfile"
+
+[deploy]
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5

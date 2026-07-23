@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+.pnp
+.pnp.js
+
+# Builds
+dist/
+build/
+coverage/
+.turbo/
+*.tsbuildinfo
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Uploads & local data
+backend/uploads/*
+!backend/uploads/.gitkeep
+tmp/
+temp/
+
+# Docker volumes
+pgdata/
+redisdata/
+minio-data/
+
+# Test / cache
+.cache/
+.eslintcache
+.pytest_cache/
+
+# Misc
+*.pem
+*.key
+.secrets/

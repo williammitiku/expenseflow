@@ -1,0 +1,27 @@
+{
+  "name": "expenseflow",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ExpenseFlow — AI-powered Personal Finance Platform",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @expenseflow/api --filter @expenseflow/web run dev",
+    "dev:api": "pnpm --filter @expenseflow/api dev",
+    "dev:web": "pnpm --filter @expenseflow/web dev",
+    "dev:bot": "pnpm --filter @expenseflow/telegram-bot dev",
+    "dev:worker": "pnpm --filter @expenseflow/worker dev",
+    "build": "pnpm -r run build",
+    "build:shared": "pnpm --filter @expenseflow/shared build",
+    "lint": "pnpm -r run lint",
+    "test": "pnpm -r run test",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "db:migrate": "pnpm --filter @expenseflow/api db:migrate",
+    "db:seed": "pnpm --filter @expenseflow/api db:seed",
+    "db:status": "pnpm --filter @expenseflow/api db:migrate:status"
+  }
+}
