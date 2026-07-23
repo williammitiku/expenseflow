@@ -101,6 +101,56 @@ async function sendAccount(ctx: Context, api: ExpenseFlowApi) {
   );
 }
 
+async function sendBudgets(ctx: Context, api: ExpenseFlowApi) {
+  const user = await requireUser(ctx, api);
+  if (!user) return;
+  const budgets = await api.listBudgets(user.id);
+  if (!budgets.length) {
+    await ctx.reply(
+      'No budgets yet. Create them in the web dashboard under Finance.',
+      mainMenuKeyboard(),
+    );
+    return;
+  }
+  await ctx.reply(
+    [
+      '📉 Budgets',
+      '',
+      ...budgets.map(
+        (b) =>
+          `• ${b.name} (${b.period}): ${b.spent}/${b.amount} ${b.currency} — ${b.percentUsed}% [${b.status}]`,
+      ),
+    ].join('\n'),
+    mainMenuKeyboard(),
+  );
+}
+
+async function sendGoals(ctx: Context, api: ExpenseFlowApi) {
+  const user = await requireUser(ctx, api);
+  if (!user) return;
+  const goals = await api.listGoals(user.id);
+  if (!goals.length) {
+    await ctx.reply(
+      'No goals yet. Create them in the web dashboard under Finance.',
+      mainMenuKeyboard(),
+    );
+    return;
+  }
+  await ctx.reply(
+    [
+      '🎯 Goals',
+      '',
+      ...goals.map((g) => {
+        const done = g.isComplete ? ' ✓' : '';
+        const days =
+          g.daysLeft != null ? ` · ${g.daysLeft}d left` : '';
+        return `• ${g.name}${done}: ${g.currentAmount}/${g.targetAmount} ${g.currency} (${g.percentComplete}%)${days}`;
+      }),
+    ].join('\n'),
+    mainMenuKeyboard(),
+  );
+}
+
 async function sendReport(
   ctx: Context,
   api: ExpenseFlowApi,
@@ -201,6 +251,24 @@ export function registerCommands(
     }
   });
 
+  bot.command('budgets', async (ctx) => {
+    try {
+      await sendBudgets(ctx, api);
+    } catch (err) {
+      console.error('[bot] /budgets', err);
+      await ctx.reply('Could not load budgets.', mainMenuKeyboard());
+    }
+  });
+
+  bot.command('goals', async (ctx) => {
+    try {
+      await sendGoals(ctx, api);
+    } catch (err) {
+      console.error('[bot] /goals', err);
+      await ctx.reply('Could not load goals.', mainMenuKeyboard());
+    }
+  });
+
   bot.command('settings', async (ctx) => {
     await ctx.reply('Settings', settingsKeyboard(webUrl));
   });
@@ -216,6 +284,24 @@ export function registerCommands(
     } catch (err) {
       console.error('[bot] menu wallets', err);
       await ctx.reply('Could not load wallets.', mainMenuKeyboard());
+    }
+  });
+
+  bot.hears(MENU.BUDGETS, async (ctx) => {
+    try {
+      await sendBudgets(ctx, api);
+    } catch (err) {
+      console.error('[bot] menu budgets', err);
+      await ctx.reply('Could not load budgets.', mainMenuKeyboard());
+    }
+  });
+
+  bot.hears(MENU.GOALS, async (ctx) => {
+    try {
+      await sendGoals(ctx, api);
+    } catch (err) {
+      console.error('[bot] menu goals', err);
+      await ctx.reply('Could not load goals.', mainMenuKeyboard());
     }
   });
 
@@ -280,13 +366,31 @@ export function registerCommands(
     }
   });
 
+  bot.action('set:budgets', async (ctx) => {
+    await ctx.answerCbQuery();
+    try {
+      await sendBudgets(ctx, api);
+    } catch {
+      await ctx.reply('Could not load budgets.', mainMenuKeyboard());
+    }
+  });
+
+  bot.action('set:goals', async (ctx) => {
+    await ctx.answerCbQuery();
+    try {
+      await sendGoals(ctx, api);
+    } catch {
+      await ctx.reply('Could not load goals.', mainMenuKeyboard());
+    }
+  });
+
   bot.action('set:help', async (ctx) => {
     await ctx.answerCbQuery();
     await ctx.reply(
       [
         `${APP_NAME} help`,
         '',
-        'Use the bottom menu for reports, wallets, and account.',
+        'Use the bottom menu for reports, wallets, budgets, and goals.',
         'Type expenses naturally: Coffee 250',
       ].join('\n'),
       mainMenuKeyboard(),

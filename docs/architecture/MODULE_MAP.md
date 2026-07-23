@@ -45,9 +45,9 @@ Modules are built **sequentially**. Each module must include: implementation, un
 
 | Order | Module | Scope |
 |-------|--------|-------|
-| 13 | **Budgets** | Periods, by category/wallet, threshold alerts (50/75/90/100) |
-| 14 | **Goals** | Targets, auto progress from savings rules |
-| 15 | **Analytics** | Dashboard aggregates (today/week/month/year, cash flow) |
+| 13 | **Budgets** | Periods, by category/wallet, threshold alerts (50/75/90/100) | ✅ Done |
+| 14 | **Goals** | Targets, contribute + wallet debit, progress UI | ✅ Done |
+| 15 | **Analytics** | Dashboard aggregates (today/week/month/year, cash flow) | ✅ Done (summary) |
 | 16 | **Reports** | Monthly/weekly/annual/merchant/category/wallet reports |
 | 17 | **Export** | CSV, Excel, PDF via worker + S3 |
 

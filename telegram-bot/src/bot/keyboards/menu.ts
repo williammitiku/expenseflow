@@ -4,6 +4,8 @@ import { Markup } from 'telegraf';
 export const MENU = {
   REPORTS: '📊 Reports',
   WALLETS: '👛 Wallets',
+  BUDGETS: '📉 Budgets',
+  GOALS: '🎯 Goals',
   ACCOUNT: '👤 Account',
   SETTINGS: '⚙️ Settings',
   ADD_HINT: '➕ How to add',
@@ -14,6 +16,7 @@ export const MENU_LABELS = new Set<string>(Object.values(MENU));
 export function mainMenuKeyboard() {
   return Markup.keyboard([
     [MENU.REPORTS, MENU.WALLETS],
+    [MENU.BUDGETS, MENU.GOALS],
     [MENU.ACCOUNT, MENU.SETTINGS],
     [MENU.ADD_HINT],
   ])
@@ -40,6 +43,8 @@ export function settingsKeyboard(webUrl?: string) {
     [Markup.button.callback('🔐 Account status', 'set:account')],
     [Markup.button.callback('📊 Quick month report', 'rpt:month')],
     [Markup.button.callback('👛 My wallets', 'set:wallets')],
+    [Markup.button.callback('📉 Budgets', 'set:budgets')],
+    [Markup.button.callback('🎯 Goals', 'set:goals')],
   ];
 
   if (webUrl) {

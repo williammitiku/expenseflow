@@ -59,8 +59,10 @@ export async function setupBotMenu(bot: Telegraf) {
     { command: 'menu', description: 'Show main menu' },
     { command: 'report', description: 'Spending reports' },
     { command: 'wallets', description: 'Wallet balances' },
+    { command: 'budgets', description: 'Budget progress' },
+    { command: 'goals', description: 'Savings goals' },
     { command: 'login', description: 'Account status' },
     { command: 'settings', description: 'Settings' },
-    { command: 'help', description: 'How to add expenses' },
+    { command: 'help', description: 'How to use the bot' },
   ]);
 }

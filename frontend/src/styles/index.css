@@ -63,6 +63,42 @@ body {
   animation: ef-rise 700ms ease-out 120ms both;
 }
 
-.ef-rise-delay-2 {
-  animation: ef-rise 700ms ease-out 240ms both;
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+.ef-input {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(154, 240, 197, 0.22);
+  background: rgba(8, 20, 16, 0.65);
+  color: var(--ef-ink);
+  padding: 0.55rem 0.75rem;
+}
+
+.ef-input:focus {
+  outline: 2px solid rgba(62, 207, 142, 0.35);
+  outline-offset: 1px;
+}
+
+.ef-btn {
+  border-radius: 0.5rem;
+  border: 1px solid rgba(62, 207, 142, 0.45);
+  background: rgba(62, 207, 142, 0.16);
+  color: var(--ef-accent-soft);
+  padding: 0.55rem 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ef-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ef-btn:hover:not(:disabled) {
+  background: rgba(62, 207, 142, 0.28);
 }

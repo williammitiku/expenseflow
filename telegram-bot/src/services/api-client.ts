@@ -143,6 +143,37 @@ export class ExpenseFlowApi {
       }),
     });
   }
+
+  async listBudgets(userId: string) {
+    const listed = await this.request<{
+      data: Array<{
+        name: string;
+        period: string;
+        amount: string;
+        currency: string;
+        spent: string;
+        remaining: string;
+        percentUsed: number;
+        status: string;
+      }>;
+    }>('/budgets', { query: { userId, limit: 20 } });
+    return listed.data;
+  }
+
+  async listGoals(userId: string) {
+    const listed = await this.request<{
+      data: Array<{
+        name: string;
+        targetAmount: string;
+        currentAmount: string;
+        currency: string;
+        percentComplete: number;
+        isComplete: boolean;
+        daysLeft: number | null;
+      }>;
+    }>('/goals', { query: { userId, limit: 20 } });
+    return listed.data;
+  }
 }
 
 export function formatDraft(draft: TransactionDraft): string {
